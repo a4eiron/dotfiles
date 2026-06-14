@@ -8,7 +8,7 @@ pdf = [
 ]
 
 image = [
-	{ run = 'okular "$@"', orphan = true, desc = "Open in Okular" }
+	{ run = 'ristretto "$@"', orphan = true, desc = "Open in ristretto" }
 ]
 
 [open]

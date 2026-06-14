@@ -1,0 +1,41 @@
+{
+  "iferr": {
+    "prefix": "iferr",
+    "body": ["if err != nil {", "\treturn $1", "}"]
+  },
+
+  "iferrw": {
+    "prefix": "iferrw",
+    "body": ["if err != nil {", "\treturn fmt.Errorf(\"$1\")", "}"]
+  },
+
+  "iferrp": {
+    "prefix": "iferrp",
+    "body": ["if err != nil {", "\tpanic($1err)", "}"]
+  },
+
+  "Println": {
+    "prefix": "Println",
+    "body": ["fmt.Println($1)"]
+  },
+
+  "Fatalln": {
+    "prefix": "Fatalln",
+    "body": ["log.Fatalln($1)"]
+  },
+
+  "struct": {
+    "prefix": "struct",
+    "body": ["type ${1:Name} struct {", "\t${2:Field} ${3:type}", "}"]
+  },
+
+  "make slice": {
+    "prefix": "mks",
+    "body": ["${1:s} := make([]${2:type}, 0, ${3:cap})"]
+  },
+
+  "make map": {
+    "prefix": "mkm",
+    "body": ["${1:m} := make(map[${2:key}]${3:value})"]
+  }
+}

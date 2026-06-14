@@ -1,0 +1,19 @@
+[opener]
+edit = [
+	{ run = '${EDITOR:-nvim} "$@"', block = true, desc = "Edit with Neovim" },
+	{ run = 'vim "$@"', block = true, desc = "Fallback to Vim" }
+]
+pdf = [
+	{ run = 'firefox "$@"', orphan = true, desc = "Open in Firefox" }
+]
+
+image = [
+	{ run = 'okular "$@"', orphan = true, desc = "Open in Okular" }
+]
+
+[open]
+rules = [
+	{ mime = "application/pdf", use = "pdf" },
+	{ mime = "text/*", use = "edit" },
+	{ mime = "image/*", use = "image" },
+]

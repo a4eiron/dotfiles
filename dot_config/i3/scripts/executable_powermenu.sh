@@ -77,7 +77,7 @@ CHOSEN=$(echo -e "$OPTIONS" | rofi -dmenu \
 
 case "$CHOSEN" in
 	"$LOCK")
-		i3lock --nofork -i /usr/share/endeavouros/backgrounds/endeavouros-wallpaper.png
+		i3lock --nofork -i ~/Downloads/arch.png
 		;;
 	"$LOGOUT")
 		i3-msg exit

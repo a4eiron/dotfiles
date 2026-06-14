@@ -1,24 +1,34 @@
 #!/usr/bin/env bash
 
-battery=$(cat /sys/class/power_supply/BAT*/capacity 2>/dev/null)
-status=$(cat /sys/class/power_supply/BAT*/status 2>/dev/null)
+shopt -s nullglob
+battery_dirs=(/sys/class/power_supply/BAT*)
+shopt -u nullglob
 
-if [[ "$status" == "Charging" ]]; then
-    bg="#4CAF50"
-    icon=""
-elif (( battery <= 15 )); then
-    bg="#F44336"
-    icon=""
-elif (( battery <= 30 )); then
-    bg="#FF9800"
-    icon=""
-elif (( battery <= 60 )); then
-    bg="#FFC107"
-    icon=""
-else
-    bg="#4CAF50"
-    icon=""
+if [[ ${#battery_dirs[@]} -eq 0 ]]; then
+    echo "No battery found"
+    exit 1
 fi
 
-printf '<span foreground="#ffffff"> <span size="xx-large">%s</span><span rise="2600"> %s%% </span></span>\n' \
-    "$icon" "$battery"
+for bat_dir in "${battery_dirs[@]}"; do
+    bat_name=$(basename "$bat_dir")
+    
+    if [[ -f "$bat_dir/capacity" && -f "$bat_dir/status" ]]; then
+        capacity=$(< "$bat_dir/capacity")
+        status=$(< "$bat_dir/status")
+    else
+        echo "$bat_name: Error reading status"
+        continue
+    fi
+
+    case "$status" in
+        "Charging")
+            printf '%s: Charging...%s%%\n' "$bat_name" "$capacity"
+            ;;
+        "Full")
+            printf '%s: Full (%s%%)\n' "$bat_name" "$capacity"
+            ;;
+        *)
+            printf '%s: %s (%s%%)\n' "$bat_name" "$status" "$capacity"
+            ;;
+    esac
+done

@@ -11,7 +11,7 @@ fi
 ssid=$(iwgetid -r)
 
 if [[ -z "$ssid" ]]; then
-    printf '<span background="#F44336" foreground="#ffffff"> <span size="xx-large">󰖪</span> <span rise="2600">Disconnected</span> </span>\n'
+    printf 'WIFI: Disconnected\n'
     exit 0
 fi
 
@@ -21,13 +21,5 @@ signal=$(awk '
     exit
 }' /proc/net/wireless)
 
-if (( signal >= 75 )); then
-    bg="#4CAF50"
-elif (( signal >= 40 )); then
-    bg="#FFC107"
-else
-    bg="#F44336"
-fi
 
-printf '<span background="%s" foreground="#ffffff"> <span size="xx-large"></span> <span rise="2600">%s (%s%%)</span> </span>\n' \
-    "$bg" "$ssid" "$signal"
+printf 'WIFI: %s(%s%%)\n' "$ssid" "$signal"
